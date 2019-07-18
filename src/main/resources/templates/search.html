@@ -36,17 +36,16 @@
 
     <hr />
 
-    <div>
-        <h1 th:text="${count != null}? ${count} + ' Result(s)' : ''"></h1>
-        <span th:each="result : ${results}">
-        <table class="job-listing">
-        <tr th:each="item : ${result}" >
-            <th th:text="${#strings.capitalizeWords(item.key)} + ':'"></th>
-            <td><a th:href="@{/list/jobs(column=${item.key}, value=${item.value})}" th:text="${item.value}"></a></td>
-        </tr>
-        </table>
-        <br />
-    </span>
+    <div th:fragment="list-jobs">
+        <div th:each="arrayJobs: ${jobs}">
+            <!-- loops through the hashmap -->
+            <table class="job-listing"  >
+                <tr th:each="jobEntry : ${arrayJobs}">
+                    <td th:text="${jobEntry.key}"></td>
+                    <td th:text="${jobEntry.value}"></td>
+                </tr>
+            </table>
+        </div>
     </div>
 
 </div>
