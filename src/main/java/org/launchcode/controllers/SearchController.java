@@ -22,25 +22,23 @@ public class SearchController {
         model.addAttribute("columns", ListController.columnChoices);
         return "search";
     }
-
     @RequestMapping(value = "results")
-    public String search(Model model, @RequestParam String searchType, String searchTerm) {
+    public String results (Model model, @RequestParam String searchTerm, @RequestParam String searchType){
 
-        model.addAttribute("columns", ListController.columnChoices);
+        ArrayList<HashMap<String,String>> jobs;
 
-        //Search all
-        if (searchType.equals("all")) {
-            List<HashMap<String, String>> results = JobData.findByValue(searchTerm);
-            model.addAttribute("results", results);
-            model.addAttribute("count", results.size());
-            return "search";
+        if (searchType.equals("all")){
+            jobs = JobData.findByValue(searchTerm);
         }
-        //Search by field and value
-        List<HashMap<String, String>> results = JobData.findByColumnAndValue(searchType, searchTerm);
-        model.addAttribute("results", results);
-        model.addAttribute("count", results.size());
-        model.addAttribute("checked", searchType);
-        return "search";
+        else{
+            jobs = JobData.findByColumnAndValue(searchType,searchTerm);
+        }
+
+        model.addAttribute("columns",ListController.columnChoices);
+
+        model.addAttribute("jobs",jobs);
+
+        return "search"; // returns the results HTML Page
     }
 
 }
