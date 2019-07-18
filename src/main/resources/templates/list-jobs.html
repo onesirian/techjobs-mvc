@@ -9,7 +9,18 @@
 <div class="container body-content">
 
     <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
-    <div th:replace="search :: listing-loop"></div>
+    <div th:fragment="listing-loop">
+        <h1 th:text="${count != null}? ${count} + ' Result(s)' : ''"></h1>
+        <span th:each="result : ${results}">
+        <table class="job-listing">
+        <tr th:each="item : ${result}" >
+            <th th:text="${#strings.capitalizeWords(item.key)} + ':'"></th>
+            <td><a th:href="@{/list/jobs(column=${item.key}, value=${item.value})}" th:text="${item.value}"></a></td>
+        </tr>
+        </table>
+        <br />
+    </span>
+    </div>
 
 </div>
 
